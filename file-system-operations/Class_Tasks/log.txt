@@ -1,0 +1,6 @@
+INFO Server started
+ERROR Database connection failed
+WARNING CPU usage high
+INFO User logged in
+ERROR Timeout occurred
+INFO Request processed

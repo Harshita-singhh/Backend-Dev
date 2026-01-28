@@ -1,0 +1,6 @@
+LOG FILE ANALYSIS REPORT
+-------------------------
+Total Lines   : 6
+ERROR Count   : 2
+WARNING Count : 1
+INFO Count    : 3
