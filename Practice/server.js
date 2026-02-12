@@ -1,16 +1,71 @@
-const http = require("http");
-const server = http.createServer((req,res)=>{
-    // res.write("Hello World");
-    // res.end();
-    res.setHeader("content-Type","text/html");
-    if(req.url==="/"){
-        res.end("Home Page");
-    }else if(req.url==="/about"){
-        res.end("About Page");
-    }else{
-        res.end("Error Page");
+import express from "express"
+import { userData } from "./data.js";
+import { mid1, validationPost } from "./middleware.js";
+
+
+const app = express();
+const port = 3000;
+
+
+app.use(express.json())
+app.use(mid1)
+
+//req -> middleware -> res
+
+// http://localhost:3000
+app.get("/", (req,res)=>{
+    res.send("home route")
+})
+
+// http://localhost:3000/user
+app.get("/user", (req,res)=>{
+
+   return res.json(userData)
+})
+//http://localhost:3000/user/2
+app.get("/user/:id", (req,res)=>{
+    const id = parseInt(req.params.id);
+
+    const user = userData.find((ele)=> ele.id === id);
+
+    if(!user){
+      return res.json({
+            message:"user not found"
+        })
     }
-});
-server.listen(8000,()=>{
+
+   return res.json(user)
+})
+//http://localhost:3000/search?name=raj&password="qwert&quot;
+app.get("/search",(req,res)=>{
+    console.log(req.query)
+   
+    const userName = req.query.name;
+    const userPassword = req.query.password
+    res.send({
+        userName,userPassword
+    })
+})
+
+//http://localhost:3000/user --post
+app.post("/user",validationPost,(req,res)=>{
+
+    let {name,city} = req.body;
+
+
+    let newUserdata = {
+        id:userData.length+1,
+        name:name,
+        city:city
+    }
+    userData.push(newUserdata)
+    res.status(200).json({
+        message:"User Created"
+    })
+
+})
+
+
+app.listen(port,()=>{
     console.log("server is running")
-});
+})
