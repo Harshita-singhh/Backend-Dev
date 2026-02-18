@@ -10,13 +10,15 @@ let students = [
     {id: 30, name: "Priya", marks:80, city:"Bangalore"}
 ];
 
+
 // view students
 app.get("/students", (req, res) => {
     res.json(students);
 });
 
+
 // delete student by id only if marks <= 70
-app.delete("/students/:id", (req, res) => { 
+app.delete("/students/:id", (req, res) => {
     const id = req.params.id; 
     const index = students.findIndex(s => s.id == id);
 
